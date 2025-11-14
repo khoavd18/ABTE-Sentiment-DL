@@ -6,28 +6,22 @@ import torch
 import torch.nn.functional as F
 import streamlit as st
 from transformers import (
-    AutoTokenizer, AutoModelForTokenClassification,     # ABTE (token-level)
-    AutoTokenizer as AutoTok2, AutoModelForSequenceClassification  # sentiment (sentence-level)
+    AutoTokenizer, AutoModelForTokenClassification,    
+    AutoTokenizer as AutoTok2, AutoModelForSequenceClassification  
 )
 
-# =========================
-# Auto-detect checkpoint ABTE (ưu tiên out_finetune/checkpoint-*)
-# =========================
+
 def find_abte_checkpoint() -> str | None:
-    # 1) Ưu tiên: out_finetune/checkpoint-*/model.safetensors
     cands = sorted(glob.glob("output/out_finetune/checkpoint-*/model*.safetensors"))
     if cands:
-        # lấy checkpoint có step lớn nhất
-        def step_dir(p):  # .../checkpoint-1234/model.safetensors -> 1234
+        def step_dir(p):  
             m = re.search(r"checkpoint-(\d+)", p)
             return int(m.group(1)) if m else -1
         best = max(cands, key=step_dir)
-        return os.path.dirname(best)  # trả về thư mục checkpoint
+        return os.path.dirname(best)
 
-    # 2) Nếu không có, tìm bất kỳ thư mục con nào chứa model.safetensors
     any_safetensors = sorted(glob.glob("**/model*.safetensors", recursive=True))
     if any_safetensors:
-        # ưu tiên thư mục có config.json + tokenizer.json
         def score_dir(p):
             d = os.path.dirname(p)
             s = 0
@@ -37,26 +31,18 @@ def find_abte_checkpoint() -> str | None:
             return s
         best = max(any_safetensors, key=score_dir)
         return os.path.dirname(best)
-
-    # 3) Không có safetensors nào
     return None
 
-# =========================
-# Cấu hình mặc định
-# =========================
-ABTE_DIR = find_abte_checkpoint()  # Tự dò
-SENT_MODEL_NAME = "cardiffnlp/twitter-roberta-base-sentiment-latest"  # có sẵn safetensors
+ABTE_DIR = find_abte_checkpoint() 
+SENT_MODEL_NAME = "cardiffnlp/twitter-roberta-base-sentiment-latest"
 SENT_LABELS = ["Negative", "Neutral", "Positive"]
 
 ID2LABEL = {0: "O", 1: "B-Term", 2: "I-Term"}
 LABEL2ID = {"O": 0, "B-Term": 1, "I-Term": 2}
 
-# =========================
-# UI helpers
-# =========================
 def color_tag(label: str) -> str | None:
-    if label == "B-Term": return "#ffdf80"  # vàng nhạt
-    if label == "I-Term": return "#ffd1dc"  # hồng nhạt
+    if label == "B-Term": return "#ffdf80" 
+    if label == "I-Term": return "#ffd1dc" 
     return None
 
 def label_badge(label: str) -> str:
@@ -77,12 +63,8 @@ def extract_spans(words: List[str], labels: List[str]) -> List[str]:
     if cur: spans.append(" ".join(cur))
     return spans
 
-# =========================
-# Load models (cache)
-# =========================
 @st.cache_resource(show_spinner=False)
 def load_abte(model_dir: str):
-    # Ép dùng safetensors (an toàn với torch < 2.6)
     tok = AutoTokenizer.from_pretrained(model_dir, use_fast=True)
     mdl = AutoModelForTokenClassification.from_pretrained(model_dir, use_safetensors=True)
     mdl.eval()
@@ -95,22 +77,19 @@ def load_sentiment(model_name: str):
     mdl.eval()
     return tok, mdl
 
-# =========================
-# Inference
-# =========================
 def abte_predict_labels(words: List[str], tok, model, device: str = "cpu") -> List[str]:
     enc = tok(words, is_split_into_words=True, return_tensors="pt",
               truncation=True, padding=False)
     inputs = {k: v.to(device) for k, v in enc.items()}
     with torch.no_grad():
-        logits = model(**inputs).logits  # [1, L, C]
+        logits = model(**inputs).logits 
     pred_ids = logits.argmax(-1)[0].tolist()
     word_ids = enc.word_ids(0)
 
     labels_by_word = []
     seen = set()
     for i, wid in enumerate(word_ids):
-        if wid is None:  # CLS/SEP
+        if wid is None:
             continue
         if wid in seen:
             continue
@@ -140,9 +119,8 @@ def classify_aspect(span_text: str, full_text: str, tok_s, mdl_s, device: str = 
         ctx = full_text
     return classify_sentence(ctx, tok_s, mdl_s, device=device)
 
-# =========================
-# Streamlit UI
-# =========================
+
+# UI
 st.set_page_config(page_title="ABTE Fine-tune Demo", page_icon="📝", layout="centered")
 st.title("📝 ABTE Fine-tune Demo (Aspect Extraction + Sentiment)")
 
@@ -155,7 +133,6 @@ with st.sidebar:
     st.code(SENT_MODEL_NAME)
     st.write(f"Device: **{device}**")
 
-# Kiểm tra checkpoint ABTE
 if ABTE_DIR is None:
     st.error(
         "Không tìm thấy checkpoint `.safetensors` cho ABTE.\n\n"
@@ -164,7 +141,6 @@ if ABTE_DIR is None:
     )
     st.stop()
 
-# Load models
 tok_abte, mdl_abte = load_abte(ABTE_DIR)
 tok_s, mdl_s = load_sentiment(SENT_MODEL_NAME)
 mdl_abte.to(device)
@@ -177,7 +153,6 @@ if st.button("Phân tích"):
     if not text.strip():
         st.warning("Hãy nhập câu.")
     else:
-        # 1) ABTE: token labels
         words = text.strip().split()
         labels = abte_predict_labels(words, tok_abte, mdl_abte, device=device)
 
@@ -191,16 +166,13 @@ if st.button("Phân tích"):
                 html.append(f"{w}{label_badge(lb)}")
         st.markdown(" ".join(html), unsafe_allow_html=True)
 
-        # 2) Aspect spans
         spans = extract_spans(words, labels)
         st.markdown("**Aspect terms:**")
         st.write(", ".join(f"`{s}`" for s in spans) if spans else "_Không có aspect term._")
 
-        # 3) Sentence sentiment
         overall_label, _ = classify_sentence(text, tok_s, mdl_s, device=device)
         st.markdown(f"**Sentence Sentiment:** {overall_label}")
 
-        # 4) Aspect polarity (ước lượng theo ngữ cảnh)
         st.markdown("**Aspect-level Polarity (ước lượng):**")
         if spans:
             rows = []
