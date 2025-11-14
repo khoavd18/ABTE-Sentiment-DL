@@ -1,0 +1,14 @@
+artifact_uri: file:///D:/code/deep_learning/ABTE-Sentiment-DL/mlruns/0/5ee52778c0674dd7bb075f980cec3597/artifacts
+end_time: 1760786666135
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5ee52778c0674dd7bb075f980cec3597
+run_name: capable-auk-759
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760786300293
+status: 3
+tags: []
+user_id: KHOA
