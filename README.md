@@ -138,10 +138,8 @@ Artifacts produced:
 - `compare_loss.png` — evaluation **loss** vs. epoch
 
 
-```
 ![F1 Curve](output/compare_f1.png)
 ![Loss Curve](output/compare_loss.png)
-```
 
 ---
 
