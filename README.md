@@ -265,10 +265,10 @@ File kết quả:
 - `compare_loss.png` — **loss** theo epoch
 
 Chèn vào README:
-```md
+
 ![F1 curves](./compare_f1.png)
 ![Loss curves](./compare_loss.png)
-```
+
 
 ---
 
