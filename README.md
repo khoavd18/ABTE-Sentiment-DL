@@ -137,7 +137,7 @@ Artifacts produced:
 - `compare_f1.png` — evaluation **F1** vs. epoch  
 - `compare_loss.png` — evaluation **loss** vs. epoch
 
-Embed in README after commit:
+
 ```
 ![F1 Curve](output/compare_f1.png)
 ![Loss Curve](output/compare_loss.png)
