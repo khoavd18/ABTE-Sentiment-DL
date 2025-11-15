@@ -134,8 +134,8 @@ python draw.py
 ```
 
 Artifacts produced:
-- `compare_f1.png` — evaluation **F1** vs. epoch  
-- `compare_loss.png` — evaluation **loss** vs. epoch
+- `output/compare_f1.png` — evaluation **F1** vs. epoch  
+- `output/compare_loss.png` — evaluation **loss** vs. epoch
 
 Embed in README after commit:
 ```md
