@@ -109,7 +109,7 @@ python train.py --model conv1d \
 
 ## Experiments
 Hardware examples:
-- **GPU**: RTX 4090 24GB / TITAN X 12GB
+- **GPU**: RTX 4060
 - **VRAM guide**: CNN/LSTM/Transformer ~ 1–3 GB; DistilBERT fine-tune ~ 6–8 GB
 
 **Example test results (replace with your numbers):**
