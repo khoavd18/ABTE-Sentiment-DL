@@ -116,10 +116,10 @@ Hardware examples:
 
 | Task | Size  | Model                 | F1 (reproduced) | Ref |
 |------|-------|-----------------------|----------------:|----:|
-| ABTE | Small | CNN 1D                | 0.xx            |  –  |
-| ABTE | Small | LSTM                  | 0.xx            |  –  |
-| ABTE | Small | Transformer Encoder   | 0.xx            |  –  |
-| ABTE | Small | **DistilBERT (ft)**   | **0.xx**        |  –  |
+| ABTE | Small | CNN 1D                | 0.51            |  –  |
+| ABTE | Small | LSTM                  | 0.37            |  –  |
+| ABTE | Small | Transformer Encoder   | 0.57            |  –  |
+| ABTE | Small | **DistilBERT (ft)**   | 0.84            |  –  |
 
 - Detailed config/logs per run: `out_<model>/logs.txt`
 - Checkpoints/state: `out_<model>/checkpoint-XXXX/`
@@ -139,8 +139,8 @@ Artifacts produced:
 
 Embed in README after commit:
 ```md
-![F1 curves](./compare_f1.png)
-![Loss curves](./compare_loss.png)
+![F1 curves](ouput/compare_f1.png)
+![Loss curves](output/compare_loss.png)
 ```
 
 ---
