@@ -41,7 +41,7 @@ A **Streamlit demo** is included. It auto-detects `.safetensors` checkpoints and
 
 ### Settings
 Default unless specified:
-- **Epochs**: 20 (**Early Stopping** `patience=3`)
+- **Epochs**: 100 (**Early Stopping** `patience=3`)
 - **Batch size**: 256 (train/eval)
 - **Weight decay**: 0.01
 - **Optimizers & LR**
@@ -109,7 +109,7 @@ python train.py --model conv1d \
 
 ## Experiments
 Hardware examples:
-- **GPU**: RTX 4090 24GB / TITAN X 12GB
+- **GPU**: RTX 4060
 - **VRAM guide**: CNN/LSTM/Transformer ~ 1–3 GB; DistilBERT fine-tune ~ 6–8 GB
 
 **Example test results (replace with your numbers):**
@@ -137,11 +137,9 @@ Artifacts produced:
 - `compare_f1.png` — evaluation **F1** vs. epoch  
 - `compare_loss.png` — evaluation **loss** vs. epoch
 
-Embed in README after commit:
-```md
-![F1 Curve](./output/compare_f1.png)
-![Loss Curve](./output/compare_loss.png)
-```
+
+![F1 Curve](output/compare_f1.png)
+![Loss Curve](output/compare_loss.png)
 
 ---
 
@@ -193,7 +191,7 @@ Có **demo Streamlit** tự dò checkpoint `.safetensors`, tô màu aspect và d
 
 ### Thiết lập
 Mặc định (trừ khi nêu khác):
-- **Epochs**: 20 (**Early Stopping** `patience=3`)
+- **Epochs**: 100 (**Early Stopping** `patience=3`)
 - **Batch**: 256 (train/eval)
 - **Weight decay**: 0.01
 - **Tối ưu & LR**
@@ -265,10 +263,10 @@ File kết quả:
 - `compare_loss.png` — **loss** theo epoch
 
 Chèn vào README:
-```md
-![F1 curves](./compare_f1.png)
-![Loss curves](./compare_loss.png)
-```
+
+![F1 curves](output/compare_f1.png)
+![Loss curves](output/compare_loss.png)
+
 
 ---
 
