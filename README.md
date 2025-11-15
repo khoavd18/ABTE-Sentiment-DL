@@ -140,7 +140,7 @@ Artifacts produced:
 Embed in README after commit:
 ```md
 ![F1](https://raw.githubusercontent.com/khoavd18/ABTE-Sentiment-DL/main/output/compare_f1.png)
-![Loss Curve](./output/compare_loss.png)
+![Loss Curve](../output/compare_loss.png)
 ```
 
 ---
