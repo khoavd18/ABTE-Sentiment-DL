@@ -41,7 +41,7 @@ A **Streamlit demo** is included. It auto-detects `.safetensors` checkpoints and
 
 ### Settings
 Default unless specified:
-- **Epochs**: 20 (**Early Stopping** `patience=3`)
+- **Epochs**: 100 (**Early Stopping** `patience=3`)
 - **Batch size**: 256 (train/eval)
 - **Weight decay**: 0.01
 - **Optimizers & LR**
@@ -193,7 +193,7 @@ Có **demo Streamlit** tự dò checkpoint `.safetensors`, tô màu aspect và d
 
 ### Thiết lập
 Mặc định (trừ khi nêu khác):
-- **Epochs**: 20 (**Early Stopping** `patience=3`)
+- **Epochs**: 100 (**Early Stopping** `patience=3`)
 - **Batch**: 256 (train/eval)
 - **Weight decay**: 0.01
 - **Tối ưu & LR**
