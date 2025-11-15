@@ -139,8 +139,8 @@ Artifacts produced:
 
 Embed in README after commit:
 ```md
-![F1 Curve](output/compare_f1.png)
-![Loss Curve](output/compare_loss.png)
+![F1 Curve](./output/compare_f1.png)
+![Loss Curve](./output/compare_loss.png)
 ```
 
 ---
