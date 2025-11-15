@@ -264,8 +264,8 @@ File kết quả:
 
 Chèn vào README:
 
-![F1 curves](./compare_f1.png)
-![Loss curves](./compare_loss.png)
+![F1 curves](output/compare_f1.png)
+![Loss curves](output/compare_loss.png)
 
 
 ---
