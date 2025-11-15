@@ -139,8 +139,8 @@ Artifacts produced:
 
 Embed in README after commit:
 ```md
-![F1 curves](ouput/compare_f1.png)
-![Loss curves](output/compare_loss.png)
+![F1 Curve](output/compare_f1.png)
+![Loss Curve](output/compare_loss.png)
 ```
 
 ---
@@ -150,65 +150,6 @@ Embed in README after commit:
 Run the demo:
 ```bash
 streamlit run app.py
-```
-
-Notes:
-- The app **auto-detects** the latest `model.safetensors` (prioritizes `out_finetune/checkpoint-*`).
-- To pin a directory manually, set inside **app.py**:
-```python
-ABTE_DIR = "model_abte"  # folder containing model.safetensors + tokenizer files
-```
-
-Minimum files needed for inference (keep these in the model folder):
-- `model.safetensors`, `config.json`
-- `tokenizer.json`, `tokenizer_config.json`, `special_tokens_map.json`
-- (`vocab.txt` / `merges.txt` / `spiece.model` depending on tokenizer)
-
----
-
-## Project Structure
-```
-ABTE-Sentiment-DL/
-├─ app.py
-├─ train.py
-├─ models.py
-├─ init.py
-├─ draw.py
-├─ requirements.txt
-├─ out_cnn/
-├─ out_lstm/
-├─ out_transformer/
-├─ out_finetune/
-└─ model_abte/
-   ├─ model.safetensors
-   ├─ config.json
-   ├─ tokenizer.json
-   ├─ tokenizer_config.json
-   ├─ special_tokens_map.json
-   └─ (vocab.txt | merges.txt | spiece.model)
-```
-
----
-
-## Deployment Notes
-- **Security**: use `safetensors` for checkpoints and `use_safetensors=True` for loading.
-- **Large Git pushes (HTTP 408)**: migrate large files to **Git LFS**  
-  `git lfs migrate import --include="*.safetensors,*.pt,*.pth,*.bin,*.h5" --everything`  
-  or host the model on **Hugging Face Hub** and keep GitHub code-only.
-
-**.gitignore (suggested)**
-```
-__pycache__/
-.venv/
-**/optimizer.pt
-**/scheduler.pt
-**/scaler.pt
-**/rng_state.pth
-**/trainer_state.json
-**/training_args.bin
-**/pytorch_model.bin
-**/*.pt
-!**/model.safetensors
 ```
 
 ---
@@ -338,64 +279,7 @@ Chạy demo:
 streamlit run app.py
 ```
 
-Lưu ý:
-- App **tự dò** `model.safetensors` mới nhất (ưu tiên `out_finetune/checkpoint-*`).
-- Cố định thư mục model trong **app.py**:
-```python
-ABTE_DIR = "model_abte"  # chứa model.safetensors + tokenizer
-```
 
-Gói tối thiểu cho suy luận (giữ trong thư mục model):
-- `model.safetensors`, `config.json`
-- `tokenizer.json`, `tokenizer_config.json`, `special_tokens_map.json`
-- (`vocab.txt` / `merges.txt` / `spiece.model` tuỳ tokenizer)
-
----
-
-## Cấu trúc dự án
-```
-ABTE-Sentiment-DL/
-├─ app.py
-├─ train.py
-├─ models.py
-├─ init.py
-├─ draw.py
-├─ requirements.txt
-├─ out_cnn/
-├─ out_lstm/
-├─ out_transformer/
-├─ out_finetune/
-└─ model_abte/
-   ├─ model.safetensors
-   ├─ config.json
-   ├─ tokenizer.json
-   ├─ tokenizer_config.json
-   ├─ special_tokens_map.json
-   └─ (vocab.txt | merges.txt | spiece.model)
-```
-
----
-
-## Ghi chú deploy
-- **Bảo mật**: dùng `safetensors` & `use_safetensors=True` khi load.
-- **Repo nặng / push lỗi 408**: chuyển lịch sử file lớn sang **Git LFS**  
-  `git lfs migrate import --include="*.safetensors,*.pt,*.pth,*.bin,*.h5" --everything`  
-  hoặc đưa model lên **Hugging Face Hub** để GitHub chỉ chứa code.
-
-**.gitignore (gợi ý)**
-```
-__pycache__/
-.venv/
-**/optimizer.pt
-**/scheduler.pt
-**/scaler.pt
-**/rng_state.pth
-**/trainer_state.json
-**/training_args.bin
-**/pytorch_model.bin
-**/*.pt
-!**/model.safetensors
-```
 
 ---
 
